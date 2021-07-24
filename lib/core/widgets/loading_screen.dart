@@ -27,8 +27,6 @@ class LoadingScreen extends StatelessWidget {
                 children: [
                   Container(
                     margin: EdgeInsets.only(bottom: 48.0.h),
-                    width: Get.width / 4,
-                    height: Get.width / 4,
                     child: CircularProgressIndicator(
                       color: Colors.white,
                       strokeWidth: 0.5,
@@ -36,7 +34,7 @@ class LoadingScreen extends StatelessWidget {
                   ),
                   Text(
                     loadingText ?? GeneralStrings.loading,
-                    style: Theme.of(context).textTheme.headline2!.copyWith(
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w300,
                         ),

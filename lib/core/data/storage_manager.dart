@@ -11,7 +11,7 @@ class StorageManager {
 
   static Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/registerData.json');
+    return File('$path/summaryCardData.json');
   }
 
   static Future<String> writeContent(String data) async {
@@ -27,7 +27,7 @@ class StorageManager {
 
       return contents;
     } catch (e) {
-      return '';
+      return 'Error: $e';
     }
   }
 }

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:summary/core/shared/biding.dart';
+import 'package:summary/core/shared/abstract_biding.dart';
 import 'package:summary/features/controller/summary_controller.dart';
 import 'package:summary/features/services/summary_service.dart';
 

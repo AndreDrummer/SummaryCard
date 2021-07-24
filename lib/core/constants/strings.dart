@@ -1,4 +1,5 @@
 class GeneralStrings {
+  static const String nothingFound = 'Nada encontrado';
   static const String loading = 'Carregando...';
 }
 

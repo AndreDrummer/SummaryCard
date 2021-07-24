@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:summary/core/shared/app_connectivity.dart';
+import 'package:summary/core/widgets/conditional_widget_render.dart';
 import 'package:summary/core/widgets/loading_screen.dart';
 import 'package:summary/features/controller/summary_controller.dart';
 
-class SummaryCard extends StatelessWidget {
+class SummaryCard extends StatefulWidget {
   SummaryCard({
     Key? key,
     required this.title,
@@ -11,33 +13,45 @@ class SummaryCard extends StatelessWidget {
 
   final String title;
 
+  @override
+  _SummaryCardState createState() => _SummaryCardState();
+}
+
+class _SummaryCardState extends State<SummaryCard> {
   final SummaryController summaryController = Get.find();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.title),
       ),
-      body: Stack(
-        children: [
-          Center(
-            child: Obx(
-              () => Text(
-                '${summaryController.summaryList.map((item) => item.toJson())}',
-                textAlign: TextAlign.center,
+      body: FutureBuilder(
+        future: summaryController.initSummaryCard(),
+        builder: (context, snapshot) {
+          return Obx(
+            () => ConditionalWidgetRender(
+              isToRenderChild: summaryController.connectionStatus !=
+                      ConnectivityStatus.noConnection ||
+                  summaryController.summaryList.isNotEmpty,
+              child: Stack(
+                children: [
+                  Center(
+                    child: Obx(
+                      () => Text(
+                        '${summaryController.summaryList.map((item) => item.toJson()).toList()}',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  LoadingScreen(
+                    show: summaryController.loading.value,
+                  )
+                ],
               ),
             ),
-          ),
-          LoadingScreen(
-            show: summaryController.loading.value,
-          )
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => summaryController.loadSummaryList(),
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+          );
+        },
       ),
     );
   }

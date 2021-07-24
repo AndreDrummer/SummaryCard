@@ -25,8 +25,6 @@ class SummaryService extends GetConnect {
         ),
       );
 
-      print('Response ${response.data['data']}');
-
       return List<WealthSummary>.from(
         response.data['data']['wealthSummary'].map(
           (item) => WealthSummary.fromJson(item),
