@@ -33,8 +33,9 @@ class _SummaryCardScreenState extends State<SummaryCardScreen> {
               child: Stack(
                 children: [
                   Center(
-                    // child: Obx(() => SummaryCard()),
-                    child: SummaryCard(),
+                    child: SummaryCard(
+                      wealthSummary: summaryController.summaryList.first,
+                    ),
                   ),
                   LoadingScreen(
                     show: summaryController.loading.value,

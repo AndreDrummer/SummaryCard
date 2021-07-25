@@ -2,9 +2,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:summary/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:summary/features/models/wealth_summary_model.dart';
 
 class SummaryCard extends StatelessWidget {
-  const SummaryCard({Key? key}) : super(key: key);
+  const SummaryCard({
+    Key? key,
+    required this.wealthSummary,
+  }) : super(key: key);
+
+  final WealthSummary wealthSummary;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +26,7 @@ class SummaryCard extends StatelessWidget {
           _cardHeader(context),
           _amountInvested(context),
           _totalValue(context),
-          SizedBox(height: 22.0.h),
+          SizedBox(height: 28.0.h),
           _optionsList(
             context,
             key: CardSummeryStrings.profitability,
@@ -100,6 +106,7 @@ class SummaryCard extends StatelessWidget {
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.headline3!.copyWith(
               color: Theme.of(context).primaryColor,
+              fontSize: 22.sp,
             ),
       ),
     );
@@ -121,13 +128,14 @@ class SummaryCard extends StatelessWidget {
         children: [
           AutoSizeText(
             key,
+            textAlign: TextAlign.left,
             style: Theme.of(context).textTheme.bodyText1!.copyWith(
                   color: Color(0XFF606377),
-                  fontSize: 16.sp,
                 ),
           ),
           AutoSizeText(
             value,
+            textAlign: TextAlign.right,
             style: Theme.of(context).textTheme.headline3!.copyWith(
                   color: Theme.of(context).primaryColor,
                   fontSize: 18.sp,
@@ -157,10 +165,7 @@ class SummaryCard extends StatelessWidget {
           child: AutoSizeText(
             CardSummeryStrings.seeMore.toUpperCase(),
             textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.headline3!.copyWith(
-                  color: Theme.of(context).primaryColor,
-                  fontSize: 16.sp,
-                ),
+            style: Theme.of(context).textTheme.button,
           ),
         ),
       ),
