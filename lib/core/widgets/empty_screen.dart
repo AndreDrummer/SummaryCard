@@ -3,7 +3,12 @@ import 'package:summary/core/constants/assets_path.dart';
 import 'package:summary/core/constants/strings.dart';
 
 class EmptyScreen extends StatelessWidget {
-  const EmptyScreen({Key? key}) : super(key: key);
+  const EmptyScreen({
+    Key? key,
+    required this.hasInternetConnection,
+  }) : super(key: key);
+
+  final bool hasInternetConnection;
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +18,15 @@ class EmptyScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            AssetsPath.nothingFound,
+            hasInternetConnection
+                ? AssetsPath.nothingFound
+                : AssetsPath.noInternet,
             color: Theme.of(context).primaryColor,
           ),
           Text(
-            GeneralStrings.nothingFound,
+            hasInternetConnection
+                ? GeneralStrings.nothingFound
+                : GeneralStrings.noInternetConnection,
             style: Theme.of(context).textTheme.headline6!.copyWith(
                   color: Theme.of(context).primaryColor,
                 ),

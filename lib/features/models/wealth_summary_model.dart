@@ -1,9 +1,10 @@
 class WealthSummary {
-  final double profitability;
+  final String profitability;
   final bool hasHistory;
-  final double cdi;
+  final String gain;
+  final String cdi;
   final int total;
-  final int gain;
+  final int id;
 
   WealthSummary({
     required this.profitability,
@@ -11,15 +12,17 @@ class WealthSummary {
     required this.total,
     required this.gain,
     required this.cdi,
+    required this.id,
   });
 
   factory WealthSummary.fromJson(Map<String, dynamic> json) {
     return WealthSummary(
       total: int.parse(json['total'].toString().replaceAll('.', '')),
-      gain: int.parse(json['gain'].toString().replaceAll('.', '')),
-      cdi: double.parse(json['cdi'].toString()),
-      profitability: json['profitability'],
+      profitability: json['profitability'].toString(),
+      cdi: json['cdi'].toString().replaceAll('.', ''),
       hasHistory: json['hasHistory'],
+      gain: json['gain'].toString(),
+      id: json['id'],
     );
   }
 
@@ -30,6 +33,7 @@ class WealthSummary {
       'total': total,
       'gain': gain,
       'cdi': cdi,
+      'id': id,
     };
   }
 }

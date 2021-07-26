@@ -1,53 +1,67 @@
+import 'package:summary/features/models/wealth_summary_model.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:summary/core/constants/strings.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:summary/core/shared/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:summary/features/models/wealth_summary_model.dart';
 
 class SummaryCard extends StatelessWidget {
-  const SummaryCard({
+  SummaryCard({
     Key? key,
     required this.wealthSummary,
   }) : super(key: key);
 
-  final WealthSummary wealthSummary;
+  final List<WealthSummary> wealthSummary;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 352.0.h,
-      width: 344.h.w,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.0.h),
-      ),
-      child: Column(
-        children: [
-          _cardHeader(context),
-          _amountInvested(context),
-          _totalValue(context),
-          SizedBox(height: 28.0.h),
-          _optionsList(
-            context,
-            key: CardSummeryStrings.profitability,
-            value: '2,767%',
-          ),
-          _optionsList(
-            context,
-            key: CardSummeryStrings.cdi,
-            value: '3,45%',
-          ),
-          _optionsList(
-            context,
-            key: CardSummeryStrings.gain,
-            value: 'R\$ 1833,23',
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 23.5.w),
-            child: Divider(),
-          ),
-          _seeMoreButton(context),
-        ],
+    if (wealthSummary.isNotEmpty) {
+      final firstSummary = wealthSummary.first;
+
+      return Container(
+        height: 352.0.h,
+        width: 344.h.w,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.0.h),
+        ),
+        child: Column(
+          children: [
+            _cardHeader(context),
+            _amountInvested(context),
+            _totalValue(context, value: firstSummary.total),
+            SizedBox(height: 28.0.h),
+            _optionsList(
+              context,
+              key: CardSummeryStrings.profitability,
+              value: Helpers.formatProfitability(
+                firstSummary.profitability.toString(),
+              ),
+            ),
+            _optionsList(
+              context,
+              key: CardSummeryStrings.cdi,
+              value: Helpers.formatCDI(
+                firstSummary.cdi,
+              ),
+            ),
+            _optionsList(
+              context,
+              value: Helpers.formatGain(firstSummary.gain),
+              key: CardSummeryStrings.gain,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 23.5.w),
+              child: Divider(),
+            ),
+            _seeMoreButton(context),
+          ],
+        ),
+      );
+    }
+    return Center(
+      child: AutoSizeText(
+        GeneralStrings.noInternetConnection,
       ),
     );
   }
@@ -95,14 +109,14 @@ class SummaryCard extends StatelessWidget {
     );
   }
 
-  Widget _totalValue(BuildContext context) {
+  Widget _totalValue(BuildContext context, {required int value}) {
     return Container(
       margin: EdgeInsets.only(
         top: 7.0.h,
       ),
       alignment: Alignment.center,
       child: AutoSizeText(
-        'R\$ 3.200.876,00',
+        Helpers.formatTotalInvested(value),
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.headline3!.copyWith(
               color: Theme.of(context).primaryColor,
@@ -115,7 +129,7 @@ class SummaryCard extends StatelessWidget {
   Widget _optionsList(
     BuildContext context, {
     required String key,
-    required String value,
+    required dynamic value,
   }) {
     return Container(
       margin: EdgeInsets.symmetric(
@@ -134,7 +148,7 @@ class SummaryCard extends StatelessWidget {
                 ),
           ),
           AutoSizeText(
-            value,
+            value.toString(),
             textAlign: TextAlign.right,
             style: Theme.of(context).textTheme.headline3!.copyWith(
                   color: Theme.of(context).primaryColor,

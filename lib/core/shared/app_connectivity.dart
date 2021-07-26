@@ -17,7 +17,6 @@ class AppConnectivityController extends GetxController {
 
   ConnectivityStatus _defineConnectionStatus(
       ConnectivityResult connectivityResult) {
-    print('New Status $connectivityResult');
     switch (connectivityResult) {
       case ConnectivityResult.mobile:
         connectivity(ConnectivityStatus.MobileConnection);

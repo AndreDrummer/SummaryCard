@@ -27,14 +27,16 @@ class _SummaryCardScreenState extends State<SummaryCardScreen> {
         builder: (context, snapshot) {
           return Obx(
             () => ConditionalWidgetRender(
-              isToRenderChild: summaryController.connectionStatus !=
-                      ConnectivityStatus.noConnection ||
-                  summaryController.summaryList.isNotEmpty,
+              whenInternetConnection: () => summaryController.initSummaryCard(),
+              hasInternetConnection: summaryController.connectionStatus !=
+                  ConnectivityStatus.noConnection,
+              isToRenderChild: summaryController.summaryList.isNotEmpty &&
+                  snapshot.connectionState == ConnectionState.done,
               child: Stack(
                 children: [
                   Center(
                     child: SummaryCard(
-                      wealthSummary: summaryController.summaryList.first,
+                      wealthSummary: summaryController.summaryList,
                     ),
                   ),
                   LoadingScreen(
